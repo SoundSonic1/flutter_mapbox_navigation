@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   final _stop1 = WayPoint(
       name: "Way Point 2",
       latitude: 38.91113678979344,
-      longitude: -77.03847169876099);
+      longitude: -77.03847165676099);
   final _stop2 = WayPoint(
       name: "Way Point 3",
       latitude: 38.91040213277608,
@@ -34,8 +34,7 @@ class _MyAppState extends State<MyApp> {
       name: "Way Point 5",
       latitude: 38.90894949285854,
       longitude: -77.03651905059814);
-  final _farAway = WayPoint(
-      name: "Far Far Away", latitude: 36.1175275, longitude: -115.1839524);
+
 
   MapBoxNavigation _directions;
   MapBoxOptions _options;
@@ -121,13 +120,16 @@ class _MyAppState extends State<MyApp> {
 
                             await _directions.startNavigation(
                                 wayPoints: wayPoints,
-                                options: MapBoxOptions(
-                                    mode:
-                                        MapBoxNavigationMode.drivingWithTraffic,
-                                    simulateRoute: true,
-                                    animateBuildRoute: true,
-                                    language: "en",
-                                    units: VoiceUnits.metric));
+                                options:  MapBoxOptions(
+                            mode:
+                                // this will show traffic for the app, congestions etc.
+                                MapBoxNavigationMode.drivingWithTraffic,
+                            // disable this on production, enabled will simulate user driving.
+                            simulateRoute: true,
+                            language: "en",
+                            // I still dont know how to deactivate voice
+                            voiceInstructionsEnabled: true,
+                            units: VoiceUnits.metric));
                           },
                         ),
                         SizedBox(
@@ -147,12 +149,16 @@ class _MyAppState extends State<MyApp> {
 
                             await _directions.startNavigation(
                                 wayPoints: wayPoints,
-                                options: MapBoxOptions(
-                                    mode: MapBoxNavigationMode.driving,
-                                    simulateRoute: true,
-                                    language: "en",
-                                    allowsUTurnAtWayPoints: true,
-                                    units: VoiceUnits.metric));
+                                options:  MapBoxOptions(
+                            mode:
+                                // this will show traffic for the app, congestions etc.
+                                MapBoxNavigationMode.drivingWithTraffic,
+                            // disable this on production, enabled will simulate user driving.
+                            simulateRoute: true,
+                            language: "en",
+                            // I still dont know how to deactivate voice
+                            voiceInstructionsEnabled: true,
+                            units: VoiceUnits.metric));
                           },
                         )
                       ],
@@ -321,10 +327,7 @@ class _MyAppState extends State<MyApp> {
         break;
       case MapBoxEvent.on_arrival:
         _arrived = true;
-        if (!_isMultipleStop) {
-          await Future.delayed(Duration(seconds: 3));
-          await _controller.finishNavigation();
-        } else {}
+        
         break;
       case MapBoxEvent.navigation_finished:
       case MapBoxEvent.navigation_cancelled:
