@@ -252,7 +252,7 @@ class NavigationActivity : AppCompatActivity(),
             FlutterMapboxNavigationPlugin.eventSink = null
         }
   sendEvent(MapBoxEvents.ON_ARRIVAL)
-        Thread.sleep(4000)
+        Thread.sleep(10000)
         onNavigationFinished()
 
     }
