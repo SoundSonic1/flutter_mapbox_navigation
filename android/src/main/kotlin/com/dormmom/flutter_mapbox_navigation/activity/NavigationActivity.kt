@@ -209,11 +209,12 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     override fun onNavigationFinished() {
-        sendEvent(MapBoxEvents.NAVIGATION_FINISHED)
+
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         navigationView?.stopNavigation()
         FlutterMapboxNavigationPlugin.eventSink = null
         NavigationLauncher.stopNavigation(this)
+
     }
 
     override fun onNavigationRunning() {
@@ -237,9 +238,10 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     override fun onArrival() {
-          // wait for 1 second
+
 
         sendEvent(MapBoxEvents.ON_ARRIVAL)
+        onNavigationFinished()
         if (points.isNotEmpty()) {
             fetchRoute(getLastKnownLocation(), points.removeAt(0))
             dropoffDialogShown = true // Accounts for multiple arrival events
@@ -251,11 +253,7 @@ class NavigationActivity : AppCompatActivity(),
             FlutterMapboxNavigationPlugin.eventSink = null
         }
 
-        Thread.sleep(10000)
-        sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
-        navigationView?.stopNavigation()
-        FlutterMapboxNavigationPlugin.eventSink = null
-        NavigationLauncher.stopNavigation(this)
+
     }
 
     override fun onFailedReroute(errorMessage: String?) {

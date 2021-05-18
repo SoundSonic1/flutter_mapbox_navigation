@@ -62,10 +62,9 @@ class _MyAppState extends State<MyApp> {
 
     _directions = MapBoxNavigation(onRouteEvent: _onEmbeddedRouteEvent);
     _options = MapBoxOptions(
-      initialLatitude: 36.1175275,
-       initialLongitude: -115.1839524,
+        initialLatitude: 36.1175275,
+        initialLongitude: -115.1839524,
         zoom: 15.0,
-        
         tilt: 0.0,
         bearing: 0.0,
         enableRefresh: false,
@@ -79,7 +78,6 @@ class _MyAppState extends State<MyApp> {
         animateBuildRoute: true,
         longPressDestinationEnabled: true,
         language: "en");
-
   }
 
   @override
@@ -126,7 +124,8 @@ class _MyAppState extends State<MyApp> {
                                 options: MapBoxOptions(
                                     mode:
                                         MapBoxNavigationMode.drivingWithTraffic,
-                                    simulateRoute: false,
+                                    simulateRoute: true,
+                                    animateBuildRoute: true,
                                     language: "en",
                                     units: VoiceUnits.metric));
                           },

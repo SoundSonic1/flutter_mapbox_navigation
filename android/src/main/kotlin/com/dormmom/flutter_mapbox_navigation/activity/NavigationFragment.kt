@@ -300,7 +300,12 @@ class NavigationFragment : Fragment(), OnNavigationReadyCallback, NavigationList
     }
 
     override fun onNavigationFinished() {
-        PluginUtilities.sendEvent(MapBoxEvents.NAVIGATION_FINISHED)
+
+        PluginUtilities.sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
+        navigationView?.stopNavigation()
+        FlutterMapboxNavigationPlugin.eventSink = null
+        stopNavigation()
+
     }
 
     override fun onNavigationRunning() {
@@ -354,6 +359,8 @@ class NavigationFragment : Fragment(), OnNavigationReadyCallback, NavigationList
         {
             FlutterMapboxNavigationPlugin.eventSink = null
         }
+
+        onNavigationFinished()
     }
 
     override fun onMilestoneEvent(routeProgress: RouteProgress, instruction: String, milestone: Milestone) {
