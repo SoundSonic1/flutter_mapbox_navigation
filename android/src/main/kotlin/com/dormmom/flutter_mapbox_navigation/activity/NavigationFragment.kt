@@ -205,7 +205,7 @@ class NavigationFragment : Fragment(), OnNavigationReadyCallback, NavigationList
                             .routeListener(this)
                             .directionsRoute(directionsRoute)
                             .shouldSimulateRoute(FlutterMapboxNavigationPlugin.simulateRoute)
-                            .build()
+                            .build()        
 
             navigationView?.startNavigation(options)
 

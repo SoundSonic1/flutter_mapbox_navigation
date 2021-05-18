@@ -98,8 +98,8 @@ class MapBoxNavigationViewController {
 
   ///Ends Navigation and Closes the Navigation View
   Future<bool> finishNavigation() async {
-    var success = await _methodChannel.invokeMethod('finishNavigation', null);
-    return success;
+    
+    return _methodChannel.invokeMethod('finishNavigation', null);
   }
 
   /// Generic Handler for Messages sent from the Platform

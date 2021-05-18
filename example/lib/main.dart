@@ -62,8 +62,8 @@ class _MyAppState extends State<MyApp> {
 
     _directions = MapBoxNavigation(onRouteEvent: _onEmbeddedRouteEvent);
     _options = MapBoxOptions(
-        //initialLatitude: 36.1175275,
-        //initialLongitude: -115.1839524,
+      initialLatitude: 36.1175275,
+       initialLongitude: -115.1839524,
         zoom: 15.0,
         tilt: 0.0,
         bearing: 0.0,
@@ -79,17 +79,6 @@ class _MyAppState extends State<MyApp> {
         longPressDestinationEnabled: true,
         language: "en");
 
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await _directions.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
   }
 
   @override
@@ -137,6 +126,7 @@ class _MyAppState extends State<MyApp> {
                                     mode:
                                         MapBoxNavigationMode.drivingWithTraffic,
                                     simulateRoute: true,
+                                    animateBuildRoute: true,
                                     language: "en",
                                     units: VoiceUnits.metric));
                           },
@@ -332,10 +322,7 @@ class _MyAppState extends State<MyApp> {
         break;
       case MapBoxEvent.on_arrival:
         _arrived = true;
-        if (!_isMultipleStop) {
-          await Future.delayed(Duration(seconds: 3));
-          await _controller.finishNavigation();
-        } else {}
+
         break;
       case MapBoxEvent.navigation_finished:
       case MapBoxEvent.navigation_cancelled:

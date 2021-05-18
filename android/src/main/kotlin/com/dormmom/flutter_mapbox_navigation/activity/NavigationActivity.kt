@@ -60,9 +60,7 @@ class NavigationActivity : AppCompatActivity(),
         SpeechAnnouncementListener,
         BannerInstructionsListener,
         RouteListener {
-
     var receiver: BroadcastReceiver? = null
-    
     private var navigationView: NavigationView? = null
     private lateinit var navigationMapboxMap: NavigationMapboxMap
     private lateinit var mapboxNavigation: MapboxNavigation
@@ -212,6 +210,10 @@ class NavigationActivity : AppCompatActivity(),
 
     override fun onNavigationFinished() {
         sendEvent(MapBoxEvents.NAVIGATION_FINISHED)
+        sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
+        navigationView?.stopNavigation()
+        FlutterMapboxNavigationPlugin.eventSink = null
+        NavigationLauncher.stopNavigation(this)
     }
 
     override fun onNavigationRunning() {
@@ -235,16 +237,25 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     override fun onArrival() {
+          // wait for 1 second
+
         sendEvent(MapBoxEvents.ON_ARRIVAL)
         if (points.isNotEmpty()) {
             fetchRoute(getLastKnownLocation(), points.removeAt(0))
             dropoffDialogShown = true // Accounts for multiple arrival events
             //Toast.makeText(this, "You have arrived!", Toast.LENGTH_SHORT).show()
+
         }
         else
         {
             FlutterMapboxNavigationPlugin.eventSink = null
         }
+
+        Thread.sleep(10000)
+        sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
+        navigationView?.stopNavigation()
+        FlutterMapboxNavigationPlugin.eventSink = null
+        NavigationLauncher.stopNavigation(this)
     }
 
     override fun onFailedReroute(errorMessage: String?) {
@@ -302,6 +313,7 @@ class NavigationActivity : AppCompatActivity(),
                             .directionsRoute(directionsRoute)
                             .shouldSimulateRoute(FlutterMapboxNavigationPlugin.simulateRoute)
                             .build()
+
 
             navigationView?.startNavigation(options)
 
