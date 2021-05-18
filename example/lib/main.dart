@@ -65,6 +65,7 @@ class _MyAppState extends State<MyApp> {
       initialLatitude: 36.1175275,
        initialLongitude: -115.1839524,
         zoom: 15.0,
+        
         tilt: 0.0,
         bearing: 0.0,
         enableRefresh: false,
@@ -125,8 +126,7 @@ class _MyAppState extends State<MyApp> {
                                 options: MapBoxOptions(
                                     mode:
                                         MapBoxNavigationMode.drivingWithTraffic,
-                                    simulateRoute: true,
-                                    animateBuildRoute: true,
+                                    simulateRoute: false,
                                     language: "en",
                                     units: VoiceUnits.metric));
                           },
@@ -322,7 +322,10 @@ class _MyAppState extends State<MyApp> {
         break;
       case MapBoxEvent.on_arrival:
         _arrived = true;
-
+        if (!_isMultipleStop) {
+          await Future.delayed(Duration(seconds: 3));
+          await _controller.finishNavigation();
+        } else {}
         break;
       case MapBoxEvent.navigation_finished:
       case MapBoxEvent.navigation_cancelled:
