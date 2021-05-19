@@ -14,14 +14,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   String _instruction = "";
-  final _origin = WayPoint(
-      name: "Way Point 1",
-      latitude: 38.9111117447887,
-      longitude: -77.04012393951416);
-  final _stop1 = WayPoint( 
-      name: "Way Point 2",
-      latitude: 38.91113678979344,
-      longitude: -77.03847165676099);
+  final _origin =
+      WayPoint(name: "Way Point 1", latitude: 42.370795, longitude: -71.104749);
+  final _stop1 =
+      WayPoint(name: "Way Point 2", latitude: 42.370470, longitude: -71.101466);
   final _stop2 = WayPoint(
       name: "Way Point 3",
       latitude: 38.91040213277608,
@@ -34,7 +30,6 @@ class _MyAppState extends State<MyApp> {
       name: "Way Point 5",
       latitude: 38.90894949285854,
       longitude: -77.03651905059814);
-
 
   MapBoxNavigation _directions;
   MapBoxOptions _options;
@@ -120,16 +115,16 @@ class _MyAppState extends State<MyApp> {
 
                             await _directions.startNavigation(
                                 wayPoints: wayPoints,
-                                options:  MapBoxOptions(
-                            mode:
-                                // this will show traffic for the app, congestions etc.
-                                MapBoxNavigationMode.drivingWithTraffic,
-                            // disable this on production, enabled will simulate user driving.
-                            simulateRoute: true,
-                            language: "en",
-                            // I still dont know how to deactivate voice
-                            voiceInstructionsEnabled: true,
-                            units: VoiceUnits.metric));
+                                options: MapBoxOptions(
+                                    enableRefresh: true,
+                                    alternatives: true,
+                                    bannerInstructionsEnabled: true,
+                                    mode:
+                                        MapBoxNavigationMode.drivingWithTraffic,
+                                    simulateRoute: true,
+                                    language: "en",
+                                    voiceInstructionsEnabled: true,
+                                    units: VoiceUnits.metric));
                           },
                         ),
                         SizedBox(
@@ -149,16 +144,16 @@ class _MyAppState extends State<MyApp> {
 
                             await _directions.startNavigation(
                                 wayPoints: wayPoints,
-                                options:  MapBoxOptions(
-                            mode:
-                                // this will show traffic for the app, congestions etc.
-                                MapBoxNavigationMode.drivingWithTraffic,
-                            // disable this on production, enabled will simulate user driving.
-                            simulateRoute: true,
-                            language: "en",
-                            // I still dont know how to deactivate voice
-                            voiceInstructionsEnabled: true,
-                            units: VoiceUnits.metric));
+                                options: MapBoxOptions(
+                                    mode:
+                                        // this will show traffic for the app, congestions etc.
+                                        MapBoxNavigationMode.drivingWithTraffic,
+                                    // disable this on production, enabled will simulate user driving.
+                                    simulateRoute: true,
+                                    language: "en",
+                                    // I still dont know how to deactivate voice
+                                    voiceInstructionsEnabled: true,
+                                    units: VoiceUnits.metric));
                           },
                         )
                       ],
@@ -327,7 +322,7 @@ class _MyAppState extends State<MyApp> {
         break;
       case MapBoxEvent.on_arrival:
         _arrived = true;
-        
+
         break;
       case MapBoxEvent.navigation_finished:
       case MapBoxEvent.navigation_cancelled:

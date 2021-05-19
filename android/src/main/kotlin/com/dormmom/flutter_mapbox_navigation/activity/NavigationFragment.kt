@@ -349,18 +349,20 @@ class NavigationFragment : Fragment(), OnNavigationReadyCallback, NavigationList
     }
 
     override fun onArrival() {
-        PluginUtilities.sendEvent(MapBoxEvents.ON_ARRIVAL)
-        if (points.isNotEmpty()) {
+          if (points.isNotEmpty()) {
             fetchRoute(getLastKnownLocation(), points.removeAt(0))
             dropoffDialogShown = true // Accounts for multiple arrival events
-            //Toast.makeText(this, "You have arrived!", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(this, "You have arrived!", Toast.LENGTH_SHORT).show()
+
         }
         else
         {
             FlutterMapboxNavigationPlugin.eventSink = null
         }
-
+        Thread.sleep(6000)
+        PluginUtilities.sendEvent(MapBoxEvents.ON_ARRIVAL)
         
+        onNavigationFinished()
     }
 
     override fun onMilestoneEvent(routeProgress: RouteProgress, instruction: String, milestone: Milestone) {

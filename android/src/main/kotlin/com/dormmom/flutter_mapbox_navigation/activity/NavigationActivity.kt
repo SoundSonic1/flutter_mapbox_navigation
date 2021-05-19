@@ -212,7 +212,7 @@ class NavigationActivity : AppCompatActivity(),
 
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         navigationView?.stopNavigation()
-        FlutterMapboxNavigationPlugin.eventSink = null
+        // FlutterMapboxNavigationPlugin.eventSink = null
         NavigationLauncher.stopNavigation(this)
 
     }
@@ -238,21 +238,19 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     override fun onArrival() {
-
-
-      
         if (points.isNotEmpty()) {
             fetchRoute(getLastKnownLocation(), points.removeAt(0))
             dropoffDialogShown = true // Accounts for multiple arrival events
-            //Toast.makeText(this, "You have arrived!", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(this, "You have arrived!", Toast.LENGTH_SHORT).show()
 
         }
         else
         {
             FlutterMapboxNavigationPlugin.eventSink = null
         }
-  sendEvent(MapBoxEvents.ON_ARRIVAL)
-        Thread.sleep(10000)
+        Thread.sleep(6000)
+        PluginUtilities.sendEvent(MapBoxEvents.ON_ARRIVAL)
+        
         onNavigationFinished()
 
     }
