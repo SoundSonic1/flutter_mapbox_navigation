@@ -209,10 +209,9 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     override fun onNavigationFinished() {
-
-        sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
+        sendEvent(MapBoxEvents.NAVIGATION_FINISHED)
         navigationView?.stopNavigation()
-        // FlutterMapboxNavigationPlugin.eventSink = null
+        FlutterMapboxNavigationPlugin.eventSink = null
         NavigationLauncher.stopNavigation(this)
 
     }
@@ -248,10 +247,9 @@ class NavigationActivity : AppCompatActivity(),
         {
             FlutterMapboxNavigationPlugin.eventSink = null
         }
-        Thread.sleep(6000)
+       
         PluginUtilities.sendEvent(MapBoxEvents.ON_ARRIVAL)
-        
-        onNavigationFinished()
+        // onNavigationFinished()
 
     }
 

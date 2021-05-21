@@ -359,10 +359,10 @@ class NavigationFragment : Fragment(), OnNavigationReadyCallback, NavigationList
         {
             FlutterMapboxNavigationPlugin.eventSink = null
         }
-        Thread.sleep(6000)
+      
         PluginUtilities.sendEvent(MapBoxEvents.ON_ARRIVAL)
         
-        onNavigationFinished()
+        // onNavigationFinished()
     }
 
     override fun onMilestoneEvent(routeProgress: RouteProgress, instruction: String, milestone: Milestone) {
