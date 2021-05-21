@@ -237,6 +237,7 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     override fun onArrival() {
+        sendEvent(MapBoxEvents.ON_ARRIVAL)
         if (points.isNotEmpty()) {
             fetchRoute(getLastKnownLocation(), points.removeAt(0))
             dropoffDialogShown = true // Accounts for multiple arrival events
@@ -248,7 +249,7 @@ class NavigationActivity : AppCompatActivity(),
             FlutterMapboxNavigationPlugin.eventSink = null
         }
        
-        PluginUtilities.sendEvent(MapBoxEvents.ON_ARRIVAL)
+     
         // onNavigationFinished()
 
     }
