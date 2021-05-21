@@ -237,7 +237,7 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     override fun onArrival() {
-        sendEvent(MapBoxEvents.ON_ARRIVAL)
+        PluginUtilities.sendEvent(MapBoxEvents.ON_ARRIVAL)
         if (points.isNotEmpty()) {
             fetchRoute(getLastKnownLocation(), points.removeAt(0))
             dropoffDialogShown = true // Accounts for multiple arrival events

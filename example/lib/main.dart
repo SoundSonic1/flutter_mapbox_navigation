@@ -325,10 +325,12 @@ class _MyAppState extends State<MyApp> {
 
         break;
       case MapBoxEvent.navigation_finished:
+       print("finished");
+
+       break;
       case MapBoxEvent.navigation_cancelled:
         setState(() {
-          _routeBuilt = false;
-          _isNavigating = false;
+        print("cancelled");
         });
         break;
       default:
