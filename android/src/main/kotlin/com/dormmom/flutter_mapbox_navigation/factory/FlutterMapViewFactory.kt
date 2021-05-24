@@ -234,8 +234,7 @@ class FlutterMapViewFactory  :
                 val longitude = point["Longitude"] as Double
                 wayPoints.add(Point.fromLngLat(longitude, latitude))
             } 
-            getRoute(context)
-            result.success(true)
+            getRoute(context, result)
         } else {
             result.success(false)
         }
@@ -537,7 +536,7 @@ class FlutterMapViewFactory  :
     }
 
 
-    private fun getRoute(context: Context) {
+    private fun getRoute(context: Context, result: MethodChannel.Result? = null) {
 
         if (!PluginUtilities.isNetworkAvailable(context)) {
             PluginUtilities.sendEvent(MapBoxEvents.ROUTE_BUILD_FAILED, "No Internet Connection")
@@ -586,10 +585,12 @@ class FlutterMapViewFactory  :
                         if (isNavigationInProgress) {
                             startNavigation()
                         }
+                        result?.success(true)
                     }
 
                     override fun onFailure(call: Call<DirectionsResponse?>, throwable: Throwable) {
                         isBuildingRoute = false
+                        result?.success(false)
                         PluginUtilities.sendEvent(MapBoxEvents.ROUTE_BUILD_FAILED, "${throwable.message}")
                     }
                 })
