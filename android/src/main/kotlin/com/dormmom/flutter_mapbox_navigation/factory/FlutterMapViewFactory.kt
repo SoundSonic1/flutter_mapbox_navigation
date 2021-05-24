@@ -79,7 +79,7 @@ class FlutterMapViewFactory  :
         PlatformView,
         MethodCallHandler,
         Application.ActivityLifecycleCallbacks,
-        OnMapReadyCallback,
+        // OnMapReadyCallback,
         OnNavigationReadyCallback,
         ProgressChangeListener,
         OffRouteListener,
@@ -101,7 +101,7 @@ class FlutterMapViewFactory  :
     private val options: MapboxMapOptions
     private var locationEngine: LocationEngine? = null
 
-    private val mapView: MapView
+    // private val mapView: MapView
     private var mapBoxMap: MapboxMap? = null
     private var currentRoute: DirectionsRoute? = null
     private val navigationView: NavigationView
@@ -139,7 +139,7 @@ class FlutterMapViewFactory  :
         options = MapboxMapOptions.createFromAttributes(context)
                 .compassEnabled(false)
                 .logoEnabled(true)
-        mapView = MapView(context, options)
+        // mapView = MapView(context, options)
         navigation = MapboxNavigation(
                 context,
                 accessToken,
@@ -148,7 +148,7 @@ class FlutterMapViewFactory  :
 
         activity.application.registerActivityLifecycleCallbacks(this)
         methodChannel.setMethodCallHandler(this)
-        mapView.getMapAsync(this)
+        // mapView.getMapAsync(this)
         navigationView = NavigationView(act).apply {
             onCreate(null)
             initialize(this@FlutterMapViewFactory)
@@ -404,7 +404,7 @@ class FlutterMapViewFactory  :
         }
     }
 
-    override fun onMapReady(map: MapboxMap) {
+    /*override fun onMapReady(map: MapboxMap) {
 
         this.mapReady = true
         this.mapBoxMap = map
@@ -439,7 +439,7 @@ class FlutterMapViewFactory  :
         }
 
         // PluginUtilities.sendEvent(MapBoxEvents.MAP_READY)
-    }
+    }*/
 
     override fun onNavigationReady(isRunning: Boolean) {
         this.mapReady = true
@@ -608,14 +608,14 @@ class FlutterMapViewFactory  :
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
 
-        mapView.onCreate(savedInstanceState)
+        // mapView.onCreate(savedInstanceState)
         navigationView.onCreate(savedInstanceState)
     }
 
     override fun onActivityStarted(activity: Activity) {
 
         try {
-            mapView.onStart()
+            // mapView.onStart()
             navigationView.onStart()
         } catch (e: java.lang.Exception) {
             Timber.i(String.format("onActivityStarted, %s", "Error: ${e.message}"))
@@ -623,23 +623,23 @@ class FlutterMapViewFactory  :
     }
 
     override fun onActivityResumed(activity: Activity) {
-        mapView.onResume()
+        // mapView.onResume()
         navigationView.onResume()
     }
 
     override fun onActivityPaused(activity: Activity) {
-        mapView.onPause()
+        // mapView.onPause()
         //navigationView.onPause()
     }
 
     override fun onActivityStopped(activity: Activity) {
-        mapView.onStop()
+        // mapView.onStop()
         //navigationView.onStop()
     }
 
     override fun onActivitySaveInstanceState(@NonNull p0: Activity, @NonNull outState: Bundle) {
 
-        mapView.onSaveInstanceState(outState)
+        // mapView.onSaveInstanceState(outState)
         //navigationView.onSaveInstanceState(outState)
     }
 
@@ -845,8 +845,8 @@ class FlutterMapViewFactory  :
     override fun dispose() {
         isDisposed = true
         mapReady = false
-        mapView.onStop()
-        mapView.onDestroy()
+        // mapView.onStop()
+        // mapView.onDestroy()
         navigationView.onStop()
         navigationView.onDestroy()
     }
