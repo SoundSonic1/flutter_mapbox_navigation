@@ -105,6 +105,7 @@ class FlutterMapViewFactory  :
     private var mapBoxMap: MapboxMap? = null
     private var currentRoute: DirectionsRoute? = null
     private val navigationView: NavigationView
+    private val accessToken: String
 
 
     private val routeRefresh = RouteRefresh(Mapbox.getAccessToken()!!)
@@ -127,6 +128,7 @@ class FlutterMapViewFactory  :
     {
         context = cxt
         activity = act
+        this.accessToken = accessToken
         
         val arguments = args as? Map<*, *>
         if(arguments != null)
@@ -549,51 +551,51 @@ class FlutterMapViewFactory  :
         destinationPoint = Point.fromLngLat(wayPoints[1].longitude(), wayPoints[1].latitude())
 
         NavigationRoute.builder(context)
-                .accessToken(Mapbox.getAccessToken()!!)
-                .origin(originPoint!!)
-                .destination(destinationPoint!!)
-                .language(navigationLanguage)
-                .alternatives(alternatives)
-                .profile(navigationMode)
-                .continueStraight(allowsUTurnAtWayPoints)
-                .enableRefresh(enableRefresh)
-                .voiceUnits(navigationVoiceUnits)
-                .annotations(DirectionsCriteria.ANNOTATION_DISTANCE, DirectionsCriteria.ANNOTATION_DURATION, DirectionsCriteria.ANNOTATION_CONGESTION)
-                .build()
-                .getRoute(object : Callback<DirectionsResponse> {
-                    override fun onResponse(call: Call<DirectionsResponse?>, response: Response<DirectionsResponse?>) {
+            .accessToken(accessToken)
+            .origin(originPoint!!)
+            .destination(destinationPoint!!)
+            .language(navigationLanguage)
+            .alternatives(alternatives)
+            .profile(navigationMode)
+            .continueStraight(allowsUTurnAtWayPoints)
+            .enableRefresh(enableRefresh)
+            .voiceUnits(navigationVoiceUnits)
+            .annotations(DirectionsCriteria.ANNOTATION_DISTANCE, DirectionsCriteria.ANNOTATION_DURATION, DirectionsCriteria.ANNOTATION_CONGESTION)
+            .build()
+            .getRoute(object : Callback<DirectionsResponse> {
+                override fun onResponse(call: Call<DirectionsResponse?>, response: Response<DirectionsResponse?>) {
 
-                        if (response.body() == null || response.body()!!.routes().size < 1) {
-                            PluginUtilities.sendEvent(MapBoxEvents.ROUTE_BUILD_FAILED, "No routes found")
-                            return
-                        }
-
-                        currentRoute = response.body()!!.routes()[0]
-                        PluginUtilities.sendEvent(MapBoxEvents.ROUTE_BUILT)
-                        moveCameraToOriginOfRoute()
-
-                        // Draw the route on the map
-                        /*if (navigationMapRoute != null) {
-                            navigationMapRoute?.updateRouteArrowVisibilityTo(false)
-                        } else {
-                            navigationMapRoute = NavigationMapRoute(navigation, mapView, mapBoxMap!!, R.style.NavigationMapRoute)
-                        }*/
-                        navigationMapRoute?.addRoute(currentRoute)
-                        isBuildingRoute = false
-
-                        //Start Navigation again from new Point, if it was already in Progress
-                        if (isNavigationInProgress) {
-                            startNavigation()
-                        }
-                        result?.success(true)
+                    if (response.body() == null || response.body()!!.routes().size < 1) {
+                        PluginUtilities.sendEvent(MapBoxEvents.ROUTE_BUILD_FAILED, "No routes found")
+                        return
                     }
 
-                    override fun onFailure(call: Call<DirectionsResponse?>, throwable: Throwable) {
-                        isBuildingRoute = false
-                        result?.success(false)
-                        PluginUtilities.sendEvent(MapBoxEvents.ROUTE_BUILD_FAILED, "${throwable.message}")
+                    currentRoute = response.body()!!.routes()[0]
+                    PluginUtilities.sendEvent(MapBoxEvents.ROUTE_BUILT)
+                    moveCameraToOriginOfRoute()
+
+                    // Draw the route on the map
+                    /*if (navigationMapRoute != null) {
+                        navigationMapRoute?.updateRouteArrowVisibilityTo(false)
+                    } else {
+                        navigationMapRoute = NavigationMapRoute(navigation, mapView, mapBoxMap!!, R.style.NavigationMapRoute)
+                    }*/
+                    navigationMapRoute?.addRoute(currentRoute)
+                    isBuildingRoute = false
+
+                    //Start Navigation again from new Point, if it was already in Progress
+                    if (isNavigationInProgress) {
+                        startNavigation()
                     }
-                })
+                    result?.success(true)
+                }
+
+                override fun onFailure(call: Call<DirectionsResponse?>, throwable: Throwable) {
+                    isBuildingRoute = false
+                    result?.success(false)
+                    PluginUtilities.sendEvent(MapBoxEvents.ROUTE_BUILD_FAILED, "${throwable.message}")
+                }
+            })
     }
 
     private fun moveCameraToOriginOfRoute() {
