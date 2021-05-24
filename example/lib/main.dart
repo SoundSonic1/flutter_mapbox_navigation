@@ -192,7 +192,10 @@ class _MyAppState extends State<MyApp> {
                                     wayPoints.add(_origin);
                                     _isMultipleStop = wayPoints.length > 2;
                                     _controller.buildRoute(
-                                        wayPoints: wayPoints);
+                                        wayPoints: wayPoints,
+                                    options: MapBoxOptions(
+                                      simulateRoute: true
+                                    ));
                                   }
                                 },
                         ),
