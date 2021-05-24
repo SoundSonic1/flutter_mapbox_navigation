@@ -290,6 +290,8 @@ class FlutterMapViewFactory  :
             optionsBuilder.navigationListener(this)
             optionsBuilder.directionsRoute(it)
             optionsBuilder.shouldSimulateRoute(simulateRoute)
+            optionsBuilder.progressChangeListener(this)
+            optionsBuilder.milestoneEventListener(this)
             navigationView.startNavigation(optionsBuilder.build())
             PluginUtilities.sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
         }
