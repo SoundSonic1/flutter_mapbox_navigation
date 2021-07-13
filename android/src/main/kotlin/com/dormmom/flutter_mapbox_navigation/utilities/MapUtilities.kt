@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import com.dormmom.flutter_mapbox_navigation.factory.FlutterMapViewFactory
-import com.dormmom.flutter_mapbox_navigation.models.MapBoxEvents
 import com.mapbox.android.core.location.LocationEngine
 import com.mapbox.android.core.location.LocationEngineCallback
 import com.mapbox.android.core.location.LocationEngineResult
@@ -14,14 +13,7 @@ import com.mapbox.api.directions.v5.models.DirectionsRoute
 import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute
-import com.mapbox.services.android.navigation.v5.navigation.NavigationConstants
-import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute
-import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress
-import com.mapbox.services.android.navigation.v5.utils.DistanceFormatter
-import com.mapbox.services.android.navigation.v5.utils.time.TimeFormatter
-import com.mapbox.turf.TurfConstants
-import com.mapbox.turf.TurfMeasurement
+import com.mapbox.navigation.ui.route.NavigationMapRoute
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,7 +44,7 @@ object MapUtilities {
     private fun calculateRoute(context: Context) {
         locationEngine?.getLastLocation(object : LocationEngineCallback<LocationEngineResult> {
             override fun onSuccess(result: LocationEngineResult?) {
-                findRouteWith(result, context)
+                // findRouteWith(result, context)
             }
 
             override fun onFailure(exception: Exception) {
@@ -62,7 +54,7 @@ object MapUtilities {
     }
 
 
-    fun findRouteWith(result: LocationEngineResult?, context: Context) {
+    /*fun findRouteWith(result: LocationEngineResult?, context: Context) {
         result?.let {
             val userLocation = result.lastLocation
             if (userLocation == null) {
@@ -247,4 +239,6 @@ object MapUtilities {
 
         return lastUpComingDirection
     }
+
+     */
 }

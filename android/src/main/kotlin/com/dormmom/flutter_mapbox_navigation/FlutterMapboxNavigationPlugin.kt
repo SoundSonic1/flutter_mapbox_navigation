@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.NonNull;
-import com.dormmom.flutter_mapbox_navigation.activity.NavigationLauncher
 import com.dormmom.flutter_mapbox_navigation.factory.MapViewFactory
 import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.DirectionsRoute
@@ -120,7 +119,7 @@ public class FlutterMapboxNavigationPlugin: FlutterPlugin, MethodCallHandler, Ev
         checkPermissionAndBeginNavigation(call, result)
       }
       "finishNavigation" -> {
-        NavigationLauncher.stopNavigation(currentActivity)
+        // NavigationLauncher.stopNavigation(currentActivity)
       }
       "enableOfflineRouting" -> {
         downloadRegionForOfflineRouting(call, result)
@@ -213,7 +212,7 @@ public class FlutterMapboxNavigationPlugin: FlutterPlugin, MethodCallHandler, Ev
 
   private fun beginNavigation(wayPoints: List<Point>)
   {
-      NavigationLauncher.startNavigation(currentActivity, wayPoints, null);
+      // NavigationLauncher.startNavigation(currentActivity, wayPoints, null);
   }
 
 

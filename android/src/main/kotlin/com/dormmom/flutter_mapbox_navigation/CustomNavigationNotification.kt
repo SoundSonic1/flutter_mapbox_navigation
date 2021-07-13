@@ -1,19 +1,6 @@
 package com.dormmom.flutter_mapbox_navigation
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.os.Build
-import androidx.core.app.NotificationCompat
-import com.mapbox.services.android.navigation.v5.navigation.notification.NavigationNotification
-import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress
-
-
-class CustomNavigationNotification(applicationContext: Context) : NavigationNotification
+/*class CustomNavigationNotification(applicationContext: Context) : NavigationNotification
 {
     private val CUSTOM_NOTIFICATION_ID = 845745152
     private val STOP_NAVIGATION_ACTION = "stop_navigation_action"
@@ -66,3 +53,5 @@ class CustomNavigationNotification(applicationContext: Context) : NavigationNoti
     }
 
 }
+
+ */

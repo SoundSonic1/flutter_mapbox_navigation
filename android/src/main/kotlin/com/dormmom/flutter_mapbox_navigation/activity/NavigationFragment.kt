@@ -1,56 +1,5 @@
 package com.dormmom.flutter_mapbox_navigation.activity
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.SharedPreferences
-import android.location.Location
-import android.os.Bundle
-import android.preference.PreferenceManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.Nullable
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
-import com.dormmom.flutter_mapbox_navigation.FlutterMapboxNavigationPlugin
-import com.dormmom.flutter_mapbox_navigation.R
-import com.dormmom.flutter_mapbox_navigation.models.MapBoxEvents
-import com.dormmom.flutter_mapbox_navigation.models.MapBoxLocation
-import com.dormmom.flutter_mapbox_navigation.models.MapBoxRouteProgressEvent
-import com.dormmom.flutter_mapbox_navigation.utilities.PluginUtilities
-import com.dormmom.flutter_mapbox_navigation.utilities.SimplifiedCallback
-import com.mapbox.api.directions.v5.DirectionsCriteria
-import com.mapbox.api.directions.v5.models.BannerInstructions
-import com.mapbox.api.directions.v5.models.DirectionsResponse
-import com.mapbox.api.directions.v5.models.DirectionsRoute
-import com.mapbox.geojson.Point
-import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.camera.CameraPosition
-import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.location.modes.RenderMode
-import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.services.android.navigation.ui.v5.NavigationView
-import com.mapbox.services.android.navigation.ui.v5.NavigationViewOptions
-import com.mapbox.services.android.navigation.ui.v5.OnNavigationReadyCallback
-import com.mapbox.services.android.navigation.ui.v5.listeners.BannerInstructionsListener
-import com.mapbox.services.android.navigation.ui.v5.listeners.NavigationListener
-import com.mapbox.services.android.navigation.ui.v5.listeners.RouteListener
-import com.mapbox.services.android.navigation.ui.v5.listeners.SpeechAnnouncementListener
-import com.mapbox.services.android.navigation.ui.v5.map.NavigationMapboxMap
-import com.mapbox.services.android.navigation.ui.v5.voice.SpeechAnnouncement
-import com.mapbox.services.android.navigation.v5.milestone.Milestone
-import com.mapbox.services.android.navigation.v5.milestone.MilestoneEventListener
-import com.mapbox.services.android.navigation.v5.navigation.MapboxNavigation
-import com.mapbox.services.android.navigation.v5.navigation.NavigationEventListener
-import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute
-import com.mapbox.services.android.navigation.v5.offroute.OffRouteListener
-import com.mapbox.services.android.navigation.v5.route.FasterRouteListener
-import com.mapbox.services.android.navigation.v5.routeprogress.ProgressChangeListener
-import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress
-import retrofit2.Call
-import retrofit2.Response
-
-
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_ROUTE = "route"
@@ -61,7 +10,7 @@ private const val ARG_WAYPOINTS = "waypoints"
  * Use the [NavigationFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NavigationFragment : Fragment(), OnNavigationReadyCallback, NavigationListener,
+/*class NavigationFragment : Fragment(), OnNavigationReadyCallback, NavigationListener,
         ProgressChangeListener, OffRouteListener, NavigationEventListener, RouteListener, MilestoneEventListener, BannerInstructionsListener, FasterRouteListener, SpeechAnnouncementListener {
 
     var receiver: BroadcastReceiver? = null
@@ -382,3 +331,4 @@ class NavigationFragment : Fragment(), OnNavigationReadyCallback, NavigationList
         TODO("Not yet implemented")
     }
 }
+*/

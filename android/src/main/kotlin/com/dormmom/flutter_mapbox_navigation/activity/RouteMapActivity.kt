@@ -1,55 +1,10 @@
 package com.dormmom.flutter_mapbox_navigation.activity
 
 import android.app.Activity
-import android.app.Application
-import android.app.Application.ActivityLifecycleCallbacks
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.location.Location
-import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.Toast
-import androidx.annotation.NonNull
-import com.dormmom.flutter_mapbox_navigation.CustomNavigationNotification
-import com.dormmom.flutter_mapbox_navigation.R
-import com.dormmom.flutter_mapbox_navigation.utilities.PluginUtilities
-import com.mapbox.android.core.location.LocationEngine
-import com.mapbox.android.core.location.LocationEngineCallback
-import com.mapbox.android.core.location.LocationEngineResult
-import com.mapbox.api.directions.v5.models.DirectionsResponse
-import com.mapbox.api.directions.v5.models.DirectionsRoute
-import com.mapbox.geojson.Point
-import com.mapbox.mapboxsdk.annotations.MarkerOptions
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
-import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.location.modes.RenderMode
-import com.mapbox.mapboxsdk.maps.MapView
-import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
-import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute
-import com.mapbox.services.android.navigation.v5.location.replay.ReplayRouteLocationEngine
-import com.mapbox.services.android.navigation.v5.milestone.Milestone
-import com.mapbox.services.android.navigation.v5.milestone.MilestoneEventListener
-import com.mapbox.services.android.navigation.v5.navigation.*
-import com.mapbox.services.android.navigation.v5.offroute.OffRouteListener
-import com.mapbox.services.android.navigation.v5.routeprogress.ProgressChangeListener
-import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress
-import com.mapbox.turf.TurfConstants
-import com.mapbox.turf.TurfMeasurement
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.lang.ref.WeakReference
-import java.util.concurrent.atomic.AtomicInteger
 
 
-class RouteMapActivity : Activity(), ActivityLifecycleCallbacks, OnMapReadyCallback,
-        MapboxMap.OnMapClickListener, ProgressChangeListener, NavigationEventListener,
-        MilestoneEventListener, OffRouteListener, RefreshCallback
-{
+class RouteMapActivity : Activity() {
+    /*
     val CREATED = 1
     val STARTED = 2
     val RESUMED = 3
@@ -333,4 +288,6 @@ class RouteMapActivity : Activity(), ActivityLifecycleCallbacks, OnMapReadyCallb
         mapView?.onDestroy();
         state.set(DESTROYED)
     }
+
+     */
 }

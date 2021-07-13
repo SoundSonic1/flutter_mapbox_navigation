@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.NavigationFragment">
 
-    <com.mapbox.services.android.navigation.ui.v5.NavigationView
+    <com.mapbox.navigation.ui.NavigationView
         android:id="@+id/navigation_fragment_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -14,7 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationLightTheme="@style/NavigationViewLight"
-        app:navigationDarkTheme="@style/NavigationViewDark"/>
+        />
 
 </FrameLayout>

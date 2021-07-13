@@ -1,8 +1,7 @@
 package com.dormmom.flutter_mapbox_navigation.models
 
 import android.location.Location
-import com.mapbox.services.android.navigation.v5.routeprogress.RouteProgress
-import com.mapbox.services.android.navigation.v5.utils.RouteUtils
+import com.mapbox.navigation.base.trip.model.RouteProgress
 
 class MapBoxRouteProgressEvent(progress: RouteProgress, location: Location) {
  
@@ -20,7 +19,7 @@ class MapBoxRouteProgressEvent(progress: RouteProgress, location: Location) {
     lateinit var remainingLegs: List<MapBoxRouteLeg>
 
     init {
-        val util = RouteUtils()
+        /*val util = RouteUtils()
         arrived = util.isArrivalEvent(progress) && util.isLastLeg(progress)
         distance = progress.directionsRoute()?.distance()
         duration = progress.directionsRoute()?.duration()
@@ -30,7 +29,7 @@ class MapBoxRouteProgressEvent(progress: RouteProgress, location: Location) {
         currentLeg = progress.currentLeg()?.let { MapBoxRouteLeg(it) }!!
         currentStepInstruction = progress.bannerInstruction?.primary?.text
         currentLegDistanceTraveled = progress.currentLegProgress?.distanceTraveled
-        currentLegDistanceRemaining = progress.currentLegProgress?.distanceRemaining
+        currentLegDistanceRemaining = progress.currentLegProgress?.distanceRemaining */
     }
 
 }
