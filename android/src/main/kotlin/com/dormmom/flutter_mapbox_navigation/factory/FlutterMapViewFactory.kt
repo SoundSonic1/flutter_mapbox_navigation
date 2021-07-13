@@ -15,8 +15,6 @@ import com.mapbox.api.directions.v5.models.DirectionsRoute
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.camera.CameraPosition
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
-import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.*
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.*
 import com.mapbox.navigation.base.internal.extensions.applyDefaultParams
@@ -67,7 +65,6 @@ class FlutterMapViewFactory :
     
     private val options: MapboxMapOptions
 
-    private var mapBoxMap: MapboxMap? = null
     private lateinit var navigationMapBoxMap: NavigationMapboxMap
     private val mapboxNavigation: MapboxNavigation
     private var currentRoute: DirectionsRoute? = null
@@ -287,7 +284,6 @@ class FlutterMapViewFactory :
 
         if (!isOffRouted) {
             isNavigationInProgress = false
-            moveCameraToOriginOfRoute()
         }
 
         if (currentRoute != null) {
@@ -296,8 +292,7 @@ class FlutterMapViewFactory :
 
     }
 
-    private fun setOptions(arguments: Map<*, *>)
-    {
+    private fun setOptions(arguments: Map<*, *>) {
         val navMode = arguments["mode"] as? String
         if(navMode != null)
         {
@@ -389,21 +384,6 @@ class FlutterMapViewFactory :
         }
     }
 
-
-    private fun moveCamera(location: LatLng) {
-        val cameraPosition = CameraPosition.Builder()
-                .target(location)
-                .zoom(zoom)
-                .bearing(bearing)
-                .tilt(tilt)
-                .build()
-        var duration = 3000
-        if(animateBuildRoute)
-            duration = 1
-        mapBoxMap?.animateCamera(CameraUpdateFactory
-                .newCameraPosition(cameraPosition), duration)
-    }
-
     private fun getRoute(context: Context, result: MethodChannel.Result? = null) {
 
         if (!PluginUtilities.isNetworkAvailable(context)) {
@@ -448,16 +428,6 @@ class FlutterMapViewFactory :
                 .build(),
             routeRequestCallback
         )
-    }
-
-    private fun moveCameraToOriginOfRoute() {
-        currentRoute?.let {
-            val originCoordinate = it.routeOptions()?.coordinates()?.get(0)
-            originCoordinate?.let {
-                val location = LatLng(originCoordinate.latitude(), originCoordinate.longitude())
-                moveCamera(location)
-            }
-        }
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
