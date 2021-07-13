@@ -3,22 +3,13 @@ package com.dormmom.flutter_mapbox_navigation.factory
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.location.Location
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.annotation.DrawableRes
 import androidx.annotation.NonNull
 import com.dormmom.flutter_mapbox_navigation.FlutterMapboxNavigationPlugin
-import com.dormmom.flutter_mapbox_navigation.R
 import com.dormmom.flutter_mapbox_navigation.models.MapBoxEvents
-import com.dormmom.flutter_mapbox_navigation.models.MapBoxLocation
 import com.dormmom.flutter_mapbox_navigation.utilities.PluginUtilities
-import com.mapbox.android.core.location.LocationEngine
 import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.DirectionsRoute
 import com.mapbox.api.directions.v5.models.RouteOptions
@@ -27,11 +18,7 @@ import com.mapbox.mapboxsdk.camera.CameraPosition
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.*
-import com.mapbox.mapboxsdk.plugins.markerview.MarkerView
-import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.*
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 import com.mapbox.navigation.base.internal.extensions.applyDefaultParams
 import com.mapbox.navigation.base.trip.model.RouteProgress
 import com.mapbox.navigation.core.MapboxNavigation
@@ -51,29 +38,25 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.platform.PlatformView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import timber.log.Timber
 import java.util.*
 
-class FlutterMapViewFactory  :
+class FlutterMapViewFactory :
         PlatformView,
         MethodCallHandler,
         Application.ActivityLifecycleCallbacks,
     OnNavigationReadyCallback,
     NavigationListener,
-        /*OnNavigationReadyCallback,
-        ProgressChangeListener,
-        OffRouteListener,
-        MilestoneEventListener,
-        NavigationEventListener,
-        NavigationListener,
-        FasterRouteListener,
-        SpeechAnnouncementListener,
-        BannerInstructionsListener,
-        RouteListener,
-        RefreshCallback, */
+    /*OnNavigationReadyCallback,
+    ProgressChangeListener,
+    OffRouteListener,
+    MilestoneEventListener,
+    NavigationEventListener,
+    NavigationListener,
+    FasterRouteListener,
+    SpeechAnnouncementListener,
+    RouteListener,
+    RefreshCallback, */
     EventChannel.StreamHandler {
 
     private val activity: Activity
@@ -187,6 +170,8 @@ class FlutterMapViewFactory  :
         navigationView = NavigationView(act).apply {
             onCreate(null)
             initialize(this@FlutterMapViewFactory, CameraPosition.Builder().zoom(zoom).build())
+            onStart()
+            onResume()
         }
     }
 
@@ -484,8 +469,8 @@ class FlutterMapViewFactory  :
 
         try {
             navigationView.onStart()
-        } catch (e: java.lang.Exception) {
-            Timber.i(String.format("onActivityStarted, %s", "Error: ${e.message}"))
+        } catch (e: Exception) {
+            Timber.d(String.format("onActivityStarted, %s", "Error: ${e.message}"))
         }
     }
 
