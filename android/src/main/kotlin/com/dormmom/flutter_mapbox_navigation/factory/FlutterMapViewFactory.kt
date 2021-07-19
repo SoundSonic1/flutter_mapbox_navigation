@@ -9,6 +9,8 @@ import android.view.View
 import androidx.annotation.NonNull
 import com.dormmom.flutter_mapbox_navigation.FlutterMapboxNavigationPlugin
 import com.dormmom.flutter_mapbox_navigation.models.MapBoxEvents
+import com.dormmom.flutter_mapbox_navigation.models.MapBoxRouteProgressEvent
+import com.dormmom.flutter_mapbox_navigation.models.RouteLocationObserver
 import com.dormmom.flutter_mapbox_navigation.utilities.PluginUtilities
 import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.DirectionsRoute
@@ -39,10 +41,16 @@ import io.flutter.plugin.platform.PlatformView
 import timber.log.Timber
 import java.util.*
 
-class FlutterMapViewFactory :
-        PlatformView,
-        MethodCallHandler,
-        Application.ActivityLifecycleCallbacks,
+class FlutterMapViewFactory(
+    cxt: Context,
+    messenger: BinaryMessenger,
+    private val accessToken: String,
+    viewId: Int,
+    act: Activity,
+    args: Any?
+) : PlatformView,
+    MethodCallHandler,
+    Application.ActivityLifecycleCallbacks,
     OnNavigationReadyCallback,
     NavigationListener,
     /*OnNavigationReadyCallback,
@@ -57,8 +65,8 @@ class FlutterMapViewFactory :
     RefreshCallback, */
     EventChannel.StreamHandler {
 
-    private val activity: Activity
-    private val context: Context
+    private val activity: Activity = act
+    private val context: Context = cxt
 
     private val methodChannel: MethodChannel
     private val eventChannel: EventChannel
@@ -69,7 +77,6 @@ class FlutterMapViewFactory :
     private val mapboxNavigation: MapboxNavigation
     private var currentRoute: DirectionsRoute? = null
     private val navigationView: NavigationView
-    private val accessToken: String
 
 
     private var navigationMapRoute: NavigationMapRoute? = null
@@ -109,28 +116,21 @@ class FlutterMapViewFactory :
     private var originPoint: Point? = null
     private var destinationPoint: Point? = null
 
+    private val locationObserver = RouteLocationObserver()
+
     private val routeProgressObserver: RouteProgressObserver = object : RouteProgressObserver {
+
         override fun onRouteProgressChanged(routeProgress: RouteProgress) {
             distanceRemaining = routeProgress.distanceRemaining.toDouble()
             durationRemaining = routeProgress.durationRemaining
 
-            // val progressEvent = MapBoxRouteProgressEvent(routeProgress, location)
-            // PluginUtilities.sendEvent(progressEvent)
+            locationObserver.location?.let {
+                val progressEvent = MapBoxRouteProgressEvent(routeProgress, it)
+                PluginUtilities.sendEvent(progressEvent)
+            }
         }
     }
 
-    private val locationObserver: LocationObserver = object : LocationObserver {
-        override fun onEnhancedLocationChanged(
-            enhancedLocation: Location,
-            keyPoints: List<Location>
-        ) {
-            // not implemented yet
-        }
-
-        override fun onRawLocationChanged(rawLocation: Location) {
-            // not implemented yet
-        }
-    }
 
     private val offRouteObserver = object : OffRouteObserver {
         override fun onOffRouteStateChanged(offRoute: Boolean) {
@@ -138,30 +138,21 @@ class FlutterMapViewFactory :
         }
     }
 
-    constructor(cxt: Context, messenger: BinaryMessenger, accessToken: String, viewId: Int, act: Activity, args: Any?)
-    {
-        context = cxt
-        activity = act
-        this.accessToken = accessToken
-        
+    init {
         val arguments = args as? Map<*, *>
         if(arguments != null)
             setOptions(arguments)
-
         methodChannel = MethodChannel(messenger, "flutter_mapbox_navigation/${viewId}")
         eventChannel = EventChannel(messenger, "flutter_mapbox_navigation/${viewId}/events")
         eventChannel.setStreamHandler(this)
-
         options = MapboxMapOptions.createFromAttributes(context)
                 .compassEnabled(false)
                 .logoEnabled(true)
-
         mapboxNavigation = MapboxNavigation(
             MapboxNavigation
                 .defaultNavigationOptionsBuilder(context, accessToken)
                 .build()
         )
-
         activity.application.registerActivityLifecycleCallbacks(this)
         methodChannel.setMethodCallHandler(this)
         navigationView = NavigationView(act).apply {

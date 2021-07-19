@@ -2,34 +2,19 @@ package com.dormmom.flutter_mapbox_navigation.models
 
 import android.location.Location
 import com.mapbox.navigation.base.trip.model.RouteProgress
+import com.mapbox.navigation.base.trip.model.RouteProgressState
 
 class MapBoxRouteProgressEvent(progress: RouteProgress, location: Location) {
- 
-    var arrived: Boolean? = null
-    private var distance: Double? = null
-    private var duration: Double? = null
-    private var distanceTraveled: Double? = null
-    var currentLegDistanceTraveled: Double? = null
-    var currentLegDistanceRemaining: Double? = null
-    var currentStepInstruction: String? = null
-    var legIndex: Int? = null
-    var stepIndex: Int? = null
-    var currentLeg: MapBoxRouteLeg? = null
-    var priorLeg: MapBoxRouteLeg? = null
-    lateinit var remainingLegs: List<MapBoxRouteLeg>
-
-    init {
-        /*val util = RouteUtils()
-        arrived = util.isArrivalEvent(progress) && util.isLastLeg(progress)
-        distance = progress.directionsRoute()?.distance()
-        duration = progress.directionsRoute()?.duration()
-        distanceTraveled = progress.distanceTraveled()
-        legIndex = progress.legIndex()
-        stepIndex = progress.stepIndex
-        currentLeg = progress.currentLeg()?.let { MapBoxRouteLeg(it) }!!
-        currentStepInstruction = progress.bannerInstruction?.primary?.text
-        currentLegDistanceTraveled = progress.currentLegProgress?.distanceTraveled
-        currentLegDistanceRemaining = progress.currentLegProgress?.distanceRemaining */
-    }
-
+    val arrived: Boolean = progress.currentState == RouteProgressState.ROUTE_COMPLETE
+    val distance: Double = progress.distanceRemaining.toDouble()
+    val duration: Double = progress.durationRemaining
+    val distanceTraveled: Double = progress.distanceTraveled.toDouble()
+    val currentLegDistanceTraveled: Double? = progress.currentLegProgress?.distanceTraveled?.toDouble()
+    val currentLegDistanceRemaining: Double? = progress.currentLegProgress?.distanceRemaining?.toDouble()
+    val currentStepInstruction: String? = progress.bannerInstructions?.primary()?.text()
+    val legIndex: Int? = progress.currentLegProgress?.legIndex
+    val stepIndex: Int? = null
+    val currentLeg: MapBoxRouteLeg? = null
+    val priorLeg: MapBoxRouteLeg? = null
+    val remainingLegs: List<MapBoxRouteLeg> = listOf()
 }
