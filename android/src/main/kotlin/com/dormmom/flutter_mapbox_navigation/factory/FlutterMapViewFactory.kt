@@ -113,9 +113,6 @@ class FlutterMapViewFactory(
     private var animateBuildRoute = true
     private var isOptimized = false
 
-    private var originPoint: Point? = null
-    private var destinationPoint: Point? = null
-
     private val locationObserver = RouteLocationObserver()
 
     private val routeProgressObserver: RouteProgressObserver = object : RouteProgressObserver {
@@ -140,8 +137,9 @@ class FlutterMapViewFactory(
 
     init {
         val arguments = args as? Map<*, *>
-        if(arguments != null)
+        if (arguments != null) {
             setOptions(arguments)
+        }
         methodChannel = MethodChannel(messenger, "flutter_mapbox_navigation/${viewId}")
         eventChannel = EventChannel(messenger, "flutter_mapbox_navigation/${viewId}/events")
         eventChannel.setStreamHandler(this)
@@ -203,8 +201,7 @@ class FlutterMapViewFactory(
         if (mapReady) {
             wayPoints.clear()
             val points = arguments?.get("wayPoints") as HashMap<*, *>
-            for (item in points)
-            {
+            for (item in points) {
                 val point = item.value as HashMap<*, *>
                 val latitude = point["Latitude"] as Double
                 val longitude = point["Longitude"] as Double
@@ -384,9 +381,6 @@ class FlutterMapViewFactory(
 
         PluginUtilities.sendEvent(MapBoxEvents.ROUTE_BUILDING)
 
-        originPoint = Point.fromLngLat(wayPoints[0].longitude(), wayPoints[0].latitude())
-        destinationPoint = Point.fromLngLat(wayPoints[1].longitude(), wayPoints[1].latitude())
-
         val routeRequestCallback = object : RoutesRequestCallback {
             override fun onRoutesReady(routes: List<DirectionsRoute>) {
                 if (routes.isEmpty()) {
@@ -415,7 +409,7 @@ class FlutterMapViewFactory(
         mapboxNavigation.requestRoutes(
             RouteOptions.builder().applyDefaultParams()
                 .accessToken(accessToken)
-                .coordinates(listOf(originPoint, destinationPoint))
+                .coordinates(wayPoints)
                 .build(),
             routeRequestCallback
         )
