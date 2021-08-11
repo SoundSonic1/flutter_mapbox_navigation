@@ -98,8 +98,15 @@ class MapBoxNavigationViewController {
 
   ///Ends Navigation and Closes the Navigation View
   Future<bool> finishNavigation() async {
-    
     return _methodChannel.invokeMethod('finishNavigation', null);
+  }
+
+  Future<bool> resumeNavigation() async {
+    return _methodChannel.invokeMethod('resumeNavigation', null);
+  }
+
+  Future<bool> pauseNavigation() async {
+    return _methodChannel.invokeMethod('pauseNavigation', null);
   }
 
   /// Generic Handler for Messages sent from the Platform

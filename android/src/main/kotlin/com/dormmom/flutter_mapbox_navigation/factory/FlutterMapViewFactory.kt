@@ -178,6 +178,12 @@ class FlutterMapViewFactory(
             "finishNavigation" -> {
                 finishNavigation(methodCall, result)
             }
+            "resumeNavigation" -> {
+                resumeNavigation(methodCall, result)
+            }
+            "pauseNavigation" -> {
+                pauseNavigation(methodCall, result)
+            }
             "getDistanceRemaining" -> {
                 result.success(distanceRemaining)
             }
@@ -245,6 +251,16 @@ class FlutterMapViewFactory(
         } else {
             result.success(false)
         }
+    }
+
+    private fun resumeNavigation(methodCall: MethodCall, result: MethodChannel.Result) {
+        navigationView.retrieveMapboxNavigation()?.startTripSession()
+        result.success(true)
+    }
+
+    private fun pauseNavigation(methodCall: MethodCall, result: MethodChannel.Result) {
+        navigationView.retrieveMapboxNavigation()?.stopTripSession()
+        result.success(true)
     }
 
     private fun startNavigation() {
