@@ -3,7 +3,6 @@ package com.dormmom.flutter_mapbox_navigation.factory
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.location.Location
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.NonNull
@@ -23,7 +22,6 @@ import com.mapbox.navigation.base.internal.extensions.applyDefaultParams
 import com.mapbox.navigation.base.trip.model.RouteProgress
 import com.mapbox.navigation.core.MapboxNavigation
 import com.mapbox.navigation.core.directions.session.RoutesRequestCallback
-import com.mapbox.navigation.core.trip.session.LocationObserver
 import com.mapbox.navigation.core.trip.session.OffRouteObserver
 import com.mapbox.navigation.core.trip.session.RouteProgressObserver
 import com.mapbox.navigation.ui.NavigationView
@@ -82,7 +80,6 @@ class FlutterMapViewFactory(
     private var navigationMapRoute: NavigationMapRoute? = null
     private var mapReady = false
 
-    private var isDisposed = false
     private var isBuildingRoute = false
     private var isNavigationInProgress = false
     private var isNavigationCanceled = false
@@ -437,24 +434,35 @@ class FlutterMapViewFactory(
     }
 
     override fun onActivityStarted(activity: Activity) {
-
         try {
             navigationView.onStart()
         } catch (e: Exception) {
-            Timber.d(String.format("onActivityStarted, %s", "Error: ${e.message}"))
+            Timber.d("onActivityStarted error: ${e.message}")
         }
     }
 
     override fun onActivityResumed(activity: Activity) {
-        navigationView.onResume()
+        try {
+            navigationView.onResume()
+        } catch (e: Exception) {
+            Timber.d("onActivityResumed error: ${e.message}")
+        }
     }
 
     override fun onActivityPaused(activity: Activity) {
-        navigationView.onPause()
+        try {
+            navigationView.onPause()
+        } catch (e: Exception) {
+            Timber.d("onActivityPaused error: ${e.message}")
+        }
     }
 
     override fun onActivityStopped(activity: Activity) {
-        navigationView.onStop()
+        try {
+            navigationView.onStop()
+        } catch (e: Exception) {
+            Timber.d("onActivityStopped error: ${e.message}")
+        }
     }
 
     override fun onActivitySaveInstanceState(@NonNull p0: Activity, @NonNull outState: Bundle) {
@@ -462,13 +470,16 @@ class FlutterMapViewFactory(
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-        navigationView.onDestroy()
+        try {
+            navigationView.onDestroy()
+        } catch (e: Exception) {
+            Timber.d("onActivityDestroyed error: ${e.message}")
+        }
     }
 
 
     override fun onCancelNavigation() {
         PluginUtilities.sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
-
         navigationView.stopNavigation()
     }
 
@@ -483,7 +494,7 @@ class FlutterMapViewFactory(
     }
 
     override fun dispose() {
-        isDisposed = true
+        activity.application.unregisterActivityLifecycleCallbacks(this)
         mapReady = false
         navigationView.onStop()
         navigationView.onDestroy()
